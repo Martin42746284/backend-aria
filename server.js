@@ -71,7 +71,7 @@ async function startServer() {
   console.log(`📁 Working directory: ${process.cwd()}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔧 Port: ${PORT}`);
-  console.log(`🎯 Frontend URL: ${process.env.FRONTEND_URL || 'https://aria-creative-frontend.vercel.app/'}`);
+  console.log(`🎯 Frontend URL: ${process.env.FRONTEND_URL || 'https://aria-creative-frontend.vercel.app'}`);
 
   // Check database connection
   const dbConnected = await checkDatabaseConnection();
@@ -116,18 +116,6 @@ async function startServer() {
   console.log('\n📡 Configuration des routes API...');
 
   // Routes
-  app.use('/api/contact', contactRoutes);
-  console.log('   ✅ /api/contact');
-
-  app.use('/api/admin', adminRoutes);
-  console.log('   ✅ /api/admin');
-
-  app.use('/api/projects', projectRoutes);
-  console.log('   ✅ /api/projects');
-
-  app.use('/api/upload', uploadRoutes);
-  console.log('   ✅ /api/upload');
-
   app.use('*', (req, res) => {
     if (req.accepts('json')) {
       return res.status(404).json({
