@@ -91,10 +91,17 @@ async function startServer() {
   console.log('   ✅ Rate limiting (100 req/15min)');
 
   // CORS configuration
-  app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://aria-creative-frontend.vercel.app/',
+  const corsOptions = {
+    origin: [
+      process.env.FRONTEND_URL || 'https://aria-creative-frontend.vercel.app',
+      'http://localhost:3001' // Pour le développement local
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
-  }));
+  };
+  app.use(cors(corsOptions));
+
   console.log('   ✅ CORS configuré');
 
   // Body parsing middleware
@@ -121,16 +128,41 @@ async function startServer() {
   app.use('/api/upload', uploadRoutes);
   console.log('   ✅ /api/upload');
 
-  // Health check endpoint
-  app.get('/api/health', (req, res) => {
-    res.json({
-      status: 'OK',
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-      database: dbConnected ? 'connected' : 'fallback',
-      version: '1.0.0'
-    });
+  app.use('*', (req, res) => {
+    if (req.accepts('json')) {
+      return res.status(404).json({
+        error: 'Not found',
+        path: req.originalUrl,
+        method: req.method,
+        availableEndpoints: [
+          '/api/contact',
+          '/api/projects',
+          '/api/admin',
+          '/api/upload',
+        ]
+      });
+    }
+    res.status(404).send('Not found');
   });
+
+  // Health check endpoint
+  app.get('/api/health', async (req, res) => {
+    try {
+      await prisma.$queryRaw`SELECT 1`;
+      res.json({
+        status: 'OK',
+        database: 'connected',
+        uptime: process.uptime()
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: 'ERROR',
+        database: 'disconnected',
+        error: error.message
+      });
+    }
+  });
+
   console.log('   ✅ /api/health');
 
   // Error handling middleware
