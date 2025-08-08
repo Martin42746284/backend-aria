@@ -134,14 +134,14 @@ async function main() {
   const admin = await createAdminUser();
   console.log(`✅ Admin créé/mis à jour: ${admin.email} (ID: ${admin.id})`);
 
-  // 2. Créer les catégories si nécessaire
-  console.log('\n🏷️  Vérification des catégories...');
-  const categories = ['Site Web', 'Application', 'E-commerce', 'Mobile'];
-  await prisma.category.createMany({
-    data: categories.map(name => ({ name })),
-    skipDuplicates: true
-  });
-  console.log(`✅ ${categories.length} catégories disponibles`);
+  // // 2. Créer les catégories si nécessaire
+  // console.log('\n🏷️  Vérification des catégories...');
+  // const categories = ['Site Web', 'Application', 'E-commerce', 'Mobile'];
+  // await prisma.category.createMany({
+  //   data: categories.map(name => ({ name })),
+  //   skipDuplicates: true
+  // });
+  // console.log(`✅ ${categories.length} catégories disponibles`);
 
   // 3. Créer les projets
   console.log('\n📂 Création des projets...');
@@ -150,24 +150,24 @@ async function main() {
     console.log(`✅ ${projectCount} projets créés avec succès`);
   }
 
-  // 4. Lier projets et catégories
-  console.log('\n🔗 Association projets/catégories...');
-  const allProjects = await prisma.project.findMany();
-  const webCategory = await prisma.category.findFirst({ where: { name: 'Site Web' }});
+  // // 4. Lier projets et catégories
+  // console.log('\n🔗 Association projets/catégories...');
+  // const allProjects = await prisma.project.findMany();
+  // const webCategory = await prisma.category.findFirst({ where: { name: 'Site Web' }});
   
-  if (webCategory) {
-    await Promise.all(
-      allProjects.map(project => 
-        prisma.projectCategory.create({
-          data: {
-            projectId: project.id,
-            categoryId: webCategory.id
-          }
-        })
-      )
-    );
-    console.log(`✅ ${allProjects.length} projets associés à la catégorie "Site Web"`);
-  }
+  // if (webCategory) {
+  //   await Promise.all(
+  //     allProjects.map(project => 
+  //       prisma.projectCategory.create({
+  //         data: {
+  //           projectId: project.id,
+  //           categoryId: webCategory.id
+  //         }
+  //       })
+  //     )
+  //   );
+  //   console.log(`✅ ${allProjects.length} projets associés à la catégorie "Site Web"`);
+  // }
 
   console.log('\n🎉 Seeding terminé avec succès !');
 }
