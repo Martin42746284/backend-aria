@@ -25,6 +25,12 @@ model User {
   @@map("users")
 }
 
+enum ProjectStatus {
+  EN_ATTENTE
+  EN_COURS
+  TERMINE
+}
+
 model Project {
   id          String   @id @default(cuid())
   title       String
@@ -32,14 +38,20 @@ model Project {
   technologies Json  // JSON string for SQLite compatibility
   client      String
   duration    String
-  status      String   @default("EN_ATTENTE") // String instead of enum
+  status      ProjectStatus
   imageUrl    String?
   url         String?
-  date        String
+  date        DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@map("projects")
+}
+
+enum MessageStatus {
+  NOUVEAU
+  LU
+  TRAITE
 }
 
 model ContactMessage {
@@ -49,7 +61,7 @@ model ContactMessage {
   company   String?
   subject   String
   message   String
-  status    String   @default("NOUVEAU") // String instead of enum
+  status    MessageStatus
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -71,14 +83,3 @@ model Upload {
   @@map("uploads")
 }
 
-model ProjectImage {
-  id          String   @id @default(cuid())
-  filename    String
-  mimetype    String
-  size        Int
-  data        Bytes    // Le contenu binaire de l'image
-  project     Project? @relation(fields: [projectId], references: [id])
-  projectId   String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}

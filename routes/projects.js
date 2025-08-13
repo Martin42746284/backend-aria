@@ -15,68 +15,68 @@ const projectSchema = Joi.object({
   status: Joi.string().valid('EN_COURS', 'TERMINE', 'EN_ATTENTE').required(),
   url: Joi.string().uri().allow('').optional(),
   imageUrl: Joi.string().allow('').optional(),
-  date: Joi.string().optional()
+  date: Joi.date().optional()
 });
 
 // // Default projects fallback data
-// const getDefaultProjects = () => [
-//   {
-//     id: "1",
-//     title: "CGEPRO",
-//     description: "Votre spécialiste du bois exotique et des aménagements extérieurs sur La Réunion",
-//     technologies: ["WordPress", "PHP", "MySQL", "SEO"],
-//     client: "CGEPRO",
-//     duration: "2 mois",
-//     status: "TERMINE",
-//     imageUrl: "/src/assets/go.jpg",
-//     date: "15/03/2024",
-//     url: "https://cgepro.com",
-//     createdAt: new Date('2024-03-15'),
-//     updatedAt: new Date('2024-03-15')
-//   },
-//   {
-//     id: "2",
-//     title: "ERIC RABY",
-//     description: "Coaching en compétences sociales et émotionnelles",
-//     technologies: ["React", "Node.js", "Stripe", "Calendar API"],
-//     client: "Eric Raby Coaching",
-//     duration: "3 mois",
-//     status: "TERMINE",
-//     imageUrl: "/src/assets/eric.jpg",
-//     date: "22/04/2024",
-//     url: "https://eric-raby.com",
-//     createdAt: new Date('2024-04-22'),
-//     updatedAt: new Date('2024-04-22')
-//   },
-//   {
-//     id: "3",
-//     title: "CONNECT TALENT",
-//     description: "Plateforme de mise en relation entre entreprises et talents africains",
-//     technologies: ["Vue.js", "Laravel", "PostgreSQL", "Socket.io"],
-//     client: "Connect Talent Inc",
-//     duration: "5 mois",
-//     status: "TERMINE",
-//     imageUrl: "/src/assets/connect.png",
-//     date: "10/05/2024",
-//     url: "https://connecttalent.cc",
-//     createdAt: new Date('2024-05-10'),
-//     updatedAt: new Date('2024-05-10')
-//   },
-//   {
-//     id: "4",
-//     title: "SOA DIA TRAVEL",
-//     description: "Transport & Logistique à Madagascar",
-//     technologies: ["Angular", "Express.js", "MongoDB", "Maps API"],
-//     client: "SOA DIA TRAVEL",
-//     duration: "4 mois",
-//     status: "TERMINE",
-//     imageUrl: "/src/assets/soa.jpg",
-//     date: "28/06/2024",
-//     url: "https://soatransplus.mg",
-//     createdAt: new Date('2024-06-28'),
-//     updatedAt: new Date('2024-06-28')
-//   }
-// ];
+const getDefaultProjects = () => [
+  {
+    id: "1",
+    title: "CGEPRO",
+    description: "Votre spécialiste du bois exotique et des aménagements extérieurs sur La Réunion",
+    technologies: ["WordPress", "PHP", "MySQL", "SEO"],
+    client: "CGEPRO",
+    duration: "2 mois",
+    status: "TERMINE",
+    imageUrl: "/src/assets/go.jpg",
+    date: "15/03/2024",
+    url: "https://cgepro.com",
+    createdAt: new Date('2024-03-15'),
+    updatedAt: new Date('2024-03-15')
+  },
+  {
+    id: "2",
+    title: "ERIC RABY",
+    description: "Coaching en compétences sociales et émotionnelles",
+    technologies: ["React", "Node.js", "Stripe", "Calendar API"],
+    client: "Eric Raby Coaching",
+    duration: "3 mois",
+    status: "TERMINE",
+    imageUrl: "/src/assets/eric.jpg",
+    date: "22/04/2024",
+    url: "https://eric-raby.com",
+    createdAt: new Date('2024-04-22'),
+    updatedAt: new Date('2024-04-22')
+  },
+  {
+    id: "3",
+    title: "CONNECT TALENT",
+    description: "Plateforme de mise en relation entre entreprises et talents africains",
+    technologies: ["Vue.js", "Laravel", "PostgreSQL", "Socket.io"],
+    client: "Connect Talent Inc",
+    duration: "5 mois",
+    status: "TERMINE",
+    imageUrl: "/src/assets/connect.png",
+    date: "10/05/2024",
+    url: "https://connecttalent.cc",
+    createdAt: new Date('2024-05-10'),
+    updatedAt: new Date('2024-05-10')
+  },
+  {
+    id: "4",
+    title: "SOA DIA TRAVEL",
+    description: "Transport & Logistique à Madagascar",
+    technologies: ["Angular", "Express.js", "MongoDB", "Maps API"],
+    client: "SOA DIA TRAVEL",
+    duration: "4 mois",
+    status: "TERMINE",
+    imageUrl: "/src/assets/soa.jpg",
+    date: "28/06/2024",
+    url: "https://soatransplus.mg",
+    createdAt: new Date('2024-06-28'),
+    updatedAt: new Date('2024-06-28')
+  }
+];
 
 // Helper function to convert database project to API format
 const formatProjectForAPI = (project) => {

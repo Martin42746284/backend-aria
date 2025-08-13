@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 // Configuration des données par défaut
 const DEFAULT_ADMIN = {
   email: process.env.ADMIN_EMAIL || 'admin@aria-creative.com',
-  password: process.env.ADMIN_PASSWORD || 'admin123',
+  password: process.env.ADMIN_PASSWORD || 'login@adminAria25!',
   name: 'Administrateur',
   role: 'ADMIN' // Utilisation d'une constante en majuscules pour les rôles
 };
@@ -46,7 +46,7 @@ const DEFAULT_PROJECTS = [
       duration: "5 mois",
       status: "TERMINE",
       imageUrl: "/uploads/projects/connect.png",
-      date: "10/05/2024",
+      date: new Date("2024-05-10"),
       url: "https://connecttalent.cc"
     },
     {
@@ -57,7 +57,7 @@ const DEFAULT_PROJECTS = [
       duration: "4 mois",
       status: "TERMINE",
       imageUrl: "/uploads/projects/soa.jpg",
-      date: "28/06/2024",
+      date: new Date("2024-06-01"),
       url: "https://soatransplus.mg"
     },
     {
@@ -68,7 +68,7 @@ const DEFAULT_PROJECTS = [
       duration: "3 mois",
       status: "TERMINE",
       imageUrl: null,
-      date: "15/06/2024",
+      date: new Date("2024-06-15"),
       url: "https://fashion-boutique.com"
     },
     {
@@ -79,7 +79,7 @@ const DEFAULT_PROJECTS = [
       duration: "6 mois",
       status: "EN_COURS",
       imageUrl: null,
-      date: "01/07/2024",
+      date: new Date("2024-07-01"),
       url: null
     }
 ];
@@ -115,7 +115,6 @@ async function seedProjects() {
     ...project,
     technologies: JSON.stringify(project.technologies),
     date: project.date, // Utilisation directe de l'objet Date
-    slug: project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
   }));
 
   const createdProjects = await prisma.project.createMany({
@@ -135,13 +134,13 @@ async function main() {
   console.log(`✅ Admin créé/mis à jour: ${admin.email} (ID: ${admin.id})`);
 
   // 2. Créer les catégories si nécessaire
-  console.log('\n🏷️  Vérification des catégories...');
-  const categories = ['Site Web', 'Application', 'E-commerce', 'Mobile'];
-  await prisma.category.createMany({
-    data: categories.map(name => ({ name })),
-    skipDuplicates: true
-  });
-  console.log(`✅ ${categories.length} catégories disponibles`);
+  // console.log('\n🏷️  Vérification des catégories...');
+  // const categories = ['Site Web', 'Application', 'E-commerce', 'Mobile'];
+  // await prisma.category.createMany({
+  //   data: categories.map(name => ({ name })),
+  //   skipDuplicates: true
+  // });
+  // console.log(`✅ ${categories.length} catégories disponibles`);
 
   // 3. Créer les projets
   console.log('\n📂 Création des projets...');
@@ -151,9 +150,9 @@ async function main() {
   }
 
   // 4. Lier projets et catégories
-  console.log('\n🔗 Association projets/catégories...');
-  const allProjects = await prisma.project.findMany();
-  const webCategory = await prisma.category.findFirst({ where: { name: 'Site Web' }});
+  // console.log('\n🔗 Association projets/catégories...');
+  // const allProjects = await prisma.project.findMany();
+  // const webCategory = await prisma.category.findFirst({ where: { name: 'Site Web' }});
   
   if (webCategory) {
     await Promise.all(
