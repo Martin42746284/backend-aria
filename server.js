@@ -71,7 +71,7 @@ async function startServer() {
   console.log(`📁 Working directory: ${process.cwd()}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔧 Port: ${PORT}`);
-  console.log(`🎯 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:8081'}`);
+  console.log(`🎯 Frontend URL: ${process.env.FRONTEND_URL || 'https://aria-creative-frontend.vercel.app'}`);
 
   // Check database connection
   const dbConnected = await checkDatabaseConnection();
@@ -92,7 +92,7 @@ async function startServer() {
 
   // CORS configuration
   app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:8081',
+    origin: process.env.FRONTEND_URL || 'https://aria-creative-frontend.vercel.app',
     credentials: true
   }));
   console.log('   ✅ CORS configuré');
